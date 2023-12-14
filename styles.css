@@ -1,0 +1,28 @@
+#game-container {
+    display: grid;
+    gap: 2px;
+    max-width: fit-content;
+}
+
+.tile {
+
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.tile-W {
+    background-color: #000;
+}
+
+.tile-S {
+    background-color: #fff;
+}
+
+.tile-G {
+    background-color: #00f;
+}
+
+.tile-P {
+    background-color: rgb(255, 0, 0);
+}
