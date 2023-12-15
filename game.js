@@ -1,6 +1,11 @@
 const gameContainer = document.getElementById("game-container");
 
-let map = generateMap(tileMap01);
+startGame();
+
+function startGame() {
+	generateMap(tileMap01);
+	document.addEventListener("keydown", handleKeyPress);
+}
 
 function generateMap(tileMap) {
 	// Ensure that the game container exists
@@ -30,8 +35,6 @@ function generateMap(tileMap) {
 			gameContainer.appendChild(tileElement);
 		}
 	}
-
-	return tileMap;
 }
 
 function setGridDimensions(tileMap) {
@@ -44,8 +47,6 @@ function move(direction) {
 	const initialTile = getPlayerTile();
 	if (initialTile) {
 		var movedTile = getNewPosition(direction, getPlayerTile());
-		movedTileType =
-			map.mapGrid[movedTile.dataset.y][movedTile.dataset.x][0]; //checking the type of tile the player tries to move to
 
 		//only actually moves if its not a wall
 		if (movedTile.classList.contains("tile-B")) {
@@ -119,6 +120,10 @@ function moveBox(boxTiles) {
 	) {
 		initialBoxTile.classList.remove("tile-B");
 		movedBoxTile.classList.add("tile-B");
+
+		if (movedBoxTile.classList.contains("tile-G")) {
+			victory();
+		}
 		return true;
 	}
 	return false;
@@ -130,7 +135,7 @@ function getPlayerTile() {
 	return playerTile;
 }
 
-document.addEventListener("keydown", function (event) {
+function handleKeyPress(event) {
 	// Prevent the default action for arrow keys
 	switch (event.code) {
 		case "ArrowUp":
@@ -156,4 +161,16 @@ document.addEventListener("keydown", function (event) {
 			move("right");
 			break;
 	}
-});
+}
+
+function victory() {
+	const goalTiles = document.querySelectorAll(".tile-G");
+	for (const tile of goalTiles) {
+		if (!tile.classList.contains("tile-B")) {
+			return false;
+		}
+	}
+	document.removeEventListener("keydown", handleKeyPress);
+
+	return true;
+}
