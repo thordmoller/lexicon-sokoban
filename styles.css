@@ -5,15 +5,9 @@
 }
 
 .tile {
-
-    border: 1px solid #ccc;
     box-sizing: border-box;
     display: inline-block;
     background-color: #fff;
-}
-
-.tile-B {
-    background-color: bisque;
 }
 
 .tile-W {
@@ -26,6 +20,11 @@
 
 .tile-G {
     background-color: #00f;
+}
+
+.tile-B {
+    background-color: bisque;
+    border: 1px solid black;
 }
 
 .tile-P {
