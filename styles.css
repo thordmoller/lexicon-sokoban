@@ -9,6 +9,11 @@
     border: 1px solid #ccc;
     box-sizing: border-box;
     display: inline-block;
+    background-color: #fff;
+}
+
+.tile-B {
+    background-color: bisque;
 }
 
 .tile-W {
