@@ -38,8 +38,27 @@ function generateMap(tileMap) {
 }
 
 function setGridDimensions(tileMap) {
-	gameContainer.style.gridTemplateColumns = `repeat(${tileMap.width}, 2vw)`;
-	gameContainer.style.gridTemplateRows = `repeat(${tileMap.height}, 2vw)`;
+	let maxWidth;
+
+	const gridGap = 2;
+	gameContainer.style.gap = gridGap + "px";
+
+	if (window.innerHeight > window.innerWidth) {
+		maxWidth =
+			Math.floor(window.innerWidth / tileMap.width) * tileMap.width;
+	} else {
+		maxWidth = 800;
+	}
+
+	const totalGapWidth = gridGap * tileMap.width - 1;
+	const totalGapHeight = gridGap * (tileMap.height - 4);
+
+	console.log(totalGapWidth);
+
+	const tileSize = Math.round((maxWidth - totalGapWidth) / tileMap.width);
+
+	gameContainer.style.gridTemplateColumns = `repeat(${tileMap.width}, ${tileSize}px)`;
+	gameContainer.style.gridTemplateRows = `repeat(${tileMap.height}, ${tileSize}px)`;
 }
 
 // Function to move the player
