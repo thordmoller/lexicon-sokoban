@@ -1,4 +1,5 @@
 const gameContainer = document.getElementById("game-container");
+let buttonEventHandlers = [];
 
 startGame();
 
@@ -43,15 +44,22 @@ function setGridDimensions(tileMap) {
 	const gridGap = 2;
 	gameContainer.style.gap = gridGap + "px";
 
+	generateButtons();
+
 	if (window.innerHeight > window.innerWidth) {
 		maxWidth =
 			Math.floor(window.innerWidth / tileMap.width) * tileMap.width;
+		let buttons = document.querySelectorAll(".button");
+		buttons.forEach((button) => {
+			button.style.height = "20vw";
+			button.style.width = "20vw";
+			// Add more styles if needed
+		});
 	} else {
 		maxWidth = 800;
 	}
 
 	const totalGapWidth = gridGap * tileMap.width - 1;
-	const totalGapHeight = gridGap * (tileMap.height - 4);
 
 	console.log(totalGapWidth);
 
@@ -59,6 +67,70 @@ function setGridDimensions(tileMap) {
 
 	gameContainer.style.gridTemplateColumns = `repeat(${tileMap.width}, ${tileSize}px)`;
 	gameContainer.style.gridTemplateRows = `repeat(${tileMap.height}, ${tileSize}px)`;
+}
+
+function generateButtons() {
+	// Generate on-screen buttons
+	const directions = ["Up", "Left", "Down", "Right"];
+	const buttonsContainer = document.createElement("div");
+	buttonsContainer.classList.add("button-container");
+
+	buttonGroup = document.createElement("div");
+
+	directions.forEach((direction) => {
+		const button = document.createElement("button");
+		button.classList.add("button");
+		button.textContent = direction;
+
+		let interval;
+		let moveTriggered = false;
+		let timeout;
+		const mousedownHandler = function () {
+			move(direction.toLowerCase());
+
+			timeout = setTimeout(() => {
+				interval = setInterval(() => {
+					console.log("hej");
+					if (!moveTriggered) {
+						move(direction.toLowerCase());
+						moveTriggered = true;
+					}
+					moveTriggered = false;
+				}, 35);
+			}, 450);
+			moveTriggered = false;
+		};
+
+		const mouseupHandler = function () {
+			clearInterval(interval);
+			clearTimeout(timeout);
+		};
+
+		button.addEventListener("mousedown", mousedownHandler);
+		document.addEventListener("mouseup", mouseupHandler);
+
+		buttonEventHandlers.push({ button, mousedownHandler, mouseupHandler });
+
+		if (direction != "Up") {
+			buttonGroup.appendChild(button);
+		} else {
+			buttonsContainer.appendChild(button);
+		}
+	});
+
+	buttonsContainer.appendChild(buttonGroup);
+
+	gameContainer.insertAdjacentElement("afterend", buttonsContainer);
+}
+
+function clearButtonEvents() {
+	buttonEventHandlers.forEach(
+		({ button, mousedownHandler, mouseupHandler }) => {
+			button.removeEventListener("mousedown", mousedownHandler);
+			document.removeEventListener("mouseup", mouseupHandler);
+		}
+	);
+	buttonEventHandlers = [];
 }
 
 // Function to move the player
@@ -190,6 +262,21 @@ function victory() {
 		}
 	}
 	document.removeEventListener("keydown", handleKeyPress);
+	clearButtonEvents();
+
+	const buttonContainer = document.querySelector(".button-container");
+	buttonContainer.innerHTML = "";
+
+	const victoryTextContainer = document.createElement("div");
+	victoryTextContainer.classList.add("victory-text");
+
+	const victoryText = document.createElement("p");
+	victoryText.textContent = "Victory!"; // You can customize the victory message
+
+	// Append the victory text element to the container
+	victoryTextContainer.appendChild(victoryText);
+
+	buttonContainer.appendChild(victoryTextContainer);
 
 	return true;
 }
