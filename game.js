@@ -106,8 +106,17 @@ function generateButtons() {
 			clearTimeout(timeout);
 		};
 
-		button.addEventListener("touchstart", mousedownHandler);
-		document.addEventListener("touchend", mouseupHandler);
+		const supportsTouch =
+			"ontouchstart" in window || navigator.msMaxTouchPoints;
+
+		// Add touchstart listener if it's a touch device
+		if (supportsTouch) {
+			button.addEventListener("touchstart", mousedownHandler);
+			document.addEventListener("touchend", mouseupHandler);
+		} else {
+			button.addEventListener("mousedown", mousedownHandler);
+			document.addEventListener("mouseup", mouseupHandler);
+		}
 
 		buttonEventHandlers.push({ button, mousedownHandler, mouseupHandler });
 
@@ -120,7 +129,7 @@ function generateButtons() {
 
 	buttonsContainer.appendChild(buttonGroup);
 
-	gameContainer.insertAdjacentElement("afterend", buttonsContainer);
+	document.querySelector(".footer").appendChild(buttonsContainer);
 }
 
 function clearButtonEvents() {
@@ -128,6 +137,8 @@ function clearButtonEvents() {
 		({ button, mousedownHandler, mouseupHandler }) => {
 			button.removeEventListener("touchstart", mousedownHandler);
 			document.removeEventListener("touchend", mouseupHandler);
+			button.removeEventListener("mousedown", mousedownHandler);
+			document.removeEventListener("mouseup", mouseupHandler);
 		}
 	);
 	buttonEventHandlers = [];
