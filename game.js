@@ -106,8 +106,8 @@ function generateButtons() {
 			clearTimeout(timeout);
 		};
 
-		button.addEventListener("mousedown", mousedownHandler);
-		document.addEventListener("mouseup", mouseupHandler);
+		button.addEventListener("touchstart", mousedownHandler);
+		document.addEventListener("touchend", mouseupHandler);
 
 		buttonEventHandlers.push({ button, mousedownHandler, mouseupHandler });
 
@@ -126,8 +126,8 @@ function generateButtons() {
 function clearButtonEvents() {
 	buttonEventHandlers.forEach(
 		({ button, mousedownHandler, mouseupHandler }) => {
-			button.removeEventListener("mousedown", mousedownHandler);
-			document.removeEventListener("mouseup", mouseupHandler);
+			button.removeEventListener("touchstart", mousedownHandler);
+			document.removeEventListener("touchend", mouseupHandler);
 		}
 	);
 	buttonEventHandlers = [];
