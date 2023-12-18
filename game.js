@@ -1,6 +1,12 @@
 const gameContainer = document.getElementById("game-container");
 let buttonEventHandlers = [];
 
+var audio = new Audio("showmethe8bit.mp3");
+
+audio.loop = true;
+audio.volume = 0.5;
+audio.muted = true;
+
 startGame();
 
 function startGame() {
@@ -145,7 +151,13 @@ function clearButtonEvents() {
 }
 
 // Function to move the player
+let firstMove = false;
 function move(direction) {
+	if (!firstMove) {
+		firstMove = true;
+		audio.muted = false;
+		audio.play();
+	}
 	const initialTile = getPlayerTile();
 	if (initialTile) {
 		var movedTile = getNewPosition(direction, getPlayerTile());
@@ -282,9 +294,8 @@ function victory() {
 	victoryTextContainer.classList.add("victory-text");
 
 	const victoryText = document.createElement("p");
-	victoryText.textContent = "Victory!"; // You can customize the victory message
+	victoryText.textContent = "Victory!";
 
-	// Append the victory text element to the container
 	victoryTextContainer.appendChild(victoryText);
 
 	buttonContainer.appendChild(victoryTextContainer);
