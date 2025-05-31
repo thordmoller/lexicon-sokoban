@@ -15,7 +15,7 @@ Players control a character using arrow keys to push boxes onto designated targe
 - Playable with keyboard only
 - Clean UI with pixel-art inspired design
 - No canvas used — pure DOM elements
-- 🎵 **Includes self-composed power metal in 8-bit format as background music**
+- 🎵 Features power metal in 8-bit style background music, composed by teenage me
 
 ## 🛠️ Tech Stack
 
