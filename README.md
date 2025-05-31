@@ -12,9 +12,10 @@ Players control a character using arrow keys to push boxes onto designated targe
 
 - Fully functional Sokoban logic (walls, boxes, win detection)
 - Responsive grid layout using CSS and JS DOM manipulation
-- Playable with keyboard or onscreen buttons for touch displays
+- Playable with keyboard only
 - Clean UI with pixel-art inspired design
 - No canvas used — pure DOM elements
+- 🎵 **Includes self-composed power metal in 8-bit format as background music**
 
 ## 🛠️ Tech Stack
 
